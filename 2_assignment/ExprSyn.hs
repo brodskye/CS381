@@ -24,6 +24,7 @@ module ExprSyn where
 data Expr = N Int
           | Plus Expr Expr
           | Neg Expr
+          | Times Expr Expr
           deriving Show
 
 -- Add "deriving Show" to be able to print values in GHC
