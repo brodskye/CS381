@@ -27,6 +27,24 @@ steps :: Int -> [Cmd]
 steps 0 = []
 steps n = [ Pen Up, Moveto(I n, I n), Pen Down, Moveto( I (n-1), I n), Moveto( I (n-1), I (n-1)) ] ++ steps(n-1)
 
+-- Question 2:
+
+--a)
+type Pair = (Int, Int)
+data Circuit = Circ Gates Links deriving Show
+data Gates = G Int GateFn Gates | EpsilonGates deriving Show
+data GateFn = And | Or | Xor | Not deriving Show
+data Links = From Pair Pair Links | EpsilonLinks deriving Show
+
+--b)
+
+circ = Circ (G 1 Xor (G 2 And (EpsilonGates))) (From (1,1) (2,1) (From (1,2) (2,2) (EpsilonLinks)))
+
+
+--c)
+pretty :: Circ -> String
+
+
 
 -- Question 3:
 
