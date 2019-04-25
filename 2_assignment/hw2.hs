@@ -31,7 +31,7 @@ steps n = [ Pen Up, Moveto(I n, I n), Pen Down, Moveto( I (n-1), I n), Moveto( I
 
 --a)
 type Pair = (Int, Int)
-data Circuit = Circ Gates Links deriving Show
+data Circuit = Circ Gates Links | EpsilonCircuit deriving Show
 data Gates = G Int GateFn Gates | EpsilonGates deriving Show
 data GateFn = And | Or | Xor | Not deriving Show
 data Links = From Pair Pair Links | EpsilonLinks deriving Show
@@ -42,7 +42,24 @@ circ = Circ (G 1 Xor (G 2 And (EpsilonGates))) (From (1,1) (2,1) (From (1,2) (2,
 
 
 --c)
-pretty :: Circ -> String
+prettyPrinterCircuit:: Circuit -> String
+prettyPrinterCircuit (EpsilonCircuit) = ","
+prettyPrinterCircuit (Circ a b) = prettyPrinterGates a ++ " " ++ prettyPrinterLinks b
+
+
+prettyPrinterGates:: Gates -> String
+prettyPrinterGates (EpsilonGates) = ","
+prettyPrinterGates (G a b c) = (show a) ++ prettyPrinterGateFn b ++ " " ++ prettyPrinterGates c --Needs three arguments
+
+prettyPrinterGateFn :: GateFn -> String
+prettyPrinterGateFn (And) = "AND\n"
+prettyPrinterGateFn (Or) = "OR\n"
+prettyPrinterGateFn (Xor) = "XOR\n"
+prettyPrinterGateFn (Not) = "NOT\n"
+
+prettyPrinterLinks:: Links -> String
+prettyPrinterLinks (EpsilonLinks) =","
+prettyPrinterLinks (From (a,b) (c,d) e) = "From " ++ (show a) ++","++ (show b) ++" to "++(show c) ++","++ (show d)++" "++ prettyPrinterLinks e
 
 
 
