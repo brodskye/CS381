@@ -19,8 +19,7 @@ data Cmd = Pen Mode
          deriving Show
 
 --b).
---vector = Def "vector" (x1 x2 y1 y2) [Pen Up, Moveto(x1, y1), Pen Down, Moveto(x2, y2), Pen Up]
-
+vector = ((Def "vector" ["x1",  "x2",  "y1",  "y2"]), (Pen Up), (Moveto(S "x1", S "y1")), (Pen Down), (Moveto(S "x2", S "y2")), (Pen Up))
 --c).
 
 steps :: Int -> [Cmd]
