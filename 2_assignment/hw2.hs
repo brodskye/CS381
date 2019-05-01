@@ -1,4 +1,4 @@
--- David Jansen, Eytan Brodskey, Shanmukh Challa
+-- David Jansen, Eytan Brodsky, Shanmukh Challa
 -- Homework 2
 
 module Homework2 where
