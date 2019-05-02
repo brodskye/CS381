@@ -1,5 +1,11 @@
--- Eytan Brodskey, David Jansen, Shanmukh Challa
+-- Eytan Brodsky, David Jansen, Shanmukh Challa
 -- Homework 3
+
+--
+--
+--Comment out 1 and 2 when testing 3, since the assignment uses the same type names like Cmd and State
+--
+--
 
 module Homework3 where
 import SVG (ppLines)
