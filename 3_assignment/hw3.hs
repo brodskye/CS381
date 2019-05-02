@@ -3,7 +3,6 @@
 
 module Homework3 where
 
-
 --Exercise 1
 
 type Prog = [Cmd]
@@ -13,6 +12,7 @@ data Cmd = LD Int
         | MULT
         | DUP
         | DEF String Prog
+        | CALL String
         deriving Show
 
 
@@ -39,14 +39,27 @@ semPrint p = sem p []
 
 --Exercise 2
 
+--Example:
+--semPrint2 [LD 5, LD 6, DEF "SQR" [DUP, MULT], CALL "SQR"]
+--result: [36, 5]
+
 type Macros = [(String, Prog)]
 type State = [String]
 
-semCmd2 :: Cmd -> D
-semCmd2 (LD a)  xs         = [a] ++ xs
-semCmd2 (ADD)   (x1:x2:xs) = [x1+x2] ++ xs
-semCmd2 (MULT)  (x1:x2:xs) = [x1*x2] ++ xs
-semCmd2 (DUP)   (x1:xs)    = [x1,x1] ++ xs
-semCmd2 _       _          = []
-semCmd2 (DEF s a)          = 
+sem2 :: Prog -> E
+sem2 [] (x, s) = (x, s)
+sem2 (x:xs) (k,s) = sem2 xs (semCmd2 x (k,s))
+
+type E = (Stack, Macros) -> (Stack, Macros)
+
+semCmd2 :: Cmd -> E
+semCmd2 (LD a) (xs, s)         = ([a] ++ xs, s)
+semCmd2 (ADD)  ((x1:x2:xs), s) = ([x1+x2] ++ xs, s)
+semCmd2 (MULT) ((x1:x2:xs), s) = ([x1*x2] ++ xs, s)
+semCmd2 (DUP)  ((x1:xs), s)    = ([x1,x1] ++ xs, s)
+semCmd2 (DEF str a) (xs, s)    = (xs, s++[(str, a)])
+semCmd2 (CALL str) (xs, (s, p):ss)   | str == s = sem2 p (xs, (s, p):ss)
+
+semPrint2 :: Prog -> Stack
+semPrint2 p = fst (sem2 p ([], []))
 
