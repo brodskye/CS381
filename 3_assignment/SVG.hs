@@ -1,6 +1,6 @@
 module SVG where
-    
--- 
+
+--
 -- The definitions from this file can be used to
 -- render the semantics of Mini Logo.
 --
@@ -11,14 +11,14 @@ module SVG where
 
 import System.IO
 
--- 
--- NOTE: The import statement must be the first 
+--
+-- NOTE: The import statement must be the first
 -- statement in the file (after the module header).
 --
 
 
 -- defintion of semantic domains
--- 
+--
 type Line  = (Int,Int,Int,Int)
 type Lines = [Line]
 
@@ -47,11 +47,10 @@ svgHdr = "<?xml version=\"1.0\" standalone=\"no\"?>\n \
          \ <rect x=\"10\" y=\"10\" width=\"1180\" height=\"1080\" \
          \       fill=\"none\" stroke=\"red\" /> "
 svgFtr = "</svg>\n"
-          
+
 ppLine :: Line -> String
 ppLine (x,y,x',y') = "<path d=\"M "++ppPos x y++" L "++ppPos x' y'++"\" "++
                      "stroke=\"blue\" stroke-width=\"5\" />\n"
 
 ppPos :: Int -> Int -> String
 ppPos x y = show (50+factor*x)++" "++show (yMax-50-factor*y)
-

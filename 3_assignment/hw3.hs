@@ -2,6 +2,8 @@
 -- Homework 3
 
 module Homework3 where
+import SVG (ppLines)
+import System.IO
 
 --Exercise 1
 
@@ -63,3 +65,29 @@ semCmd2 (CALL str) (xs, (s, p):ss)   | str == s = sem2 p (xs, (s, p):ss)
 semPrint2 :: Prog -> Stack
 semPrint2 p = fst (sem2 p ([], []))
 
+--Exercise 3
+
+data Cmd = Pen Mode
+  | MoveTo Int Int
+  | Seq Cmd Cmd
+  deriving Show
+
+data Mode = Up | Down
+            deriving (Show, Eq)
+
+type State = (Mode,Int,Int)
+type Line = (Int,Int,Int,Int)
+type Lines = [Line]
+
+initialState = (Up,0,0)
+
+semS :: Cmd -> State -> (State,Lines)
+semS (Pen a) (_,b,c) = ((a,b,c),[])
+semS (MoveTo x1 y1) (a,x2,y2)
+  | a == Up = ((a,x2,y2),[])
+  | otherwise = ((a,x2,y2),[(x1,y1,x2,y2)])
+semS (Seq x y) (a,b,c) = ((fst (semS y (fst (semS x (a,b,c))))),((snd (semS x (a,b,c))) ++ (snd (semS y (fst (semS x (a,b,c)))))))
+
+
+sem' :: Cmd -> Lines
+sem' a = snd (semS a initialState)
