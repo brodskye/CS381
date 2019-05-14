@@ -55,6 +55,9 @@ sem INC (x:s) = ((x+1):s)
 sem SWAP (x1:x2:s) = (x2:x1:s)
 sem (POP a) s = (drop a) s
 
+--The reason semPro can be simplified is because we already type check the function in semStatTC
+-- so we don't have to worry about bad types or incorrect operations in the function itself
+
 -- Exercise 2
 data Shape = X
 		| TD Shape Shape
