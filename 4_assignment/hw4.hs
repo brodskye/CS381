@@ -1,7 +1,7 @@
 module HW4 where
 
 -- Exercise 1
-
+-- a
 type Prog = [Cmd]
 data Cmd = LD Int
 		 | ADD
@@ -27,6 +27,30 @@ rankC (POP e) = (e, 0)
 rankP :: Prog -> Maybe Rank
 rankP [] = Just 0
 rankP prog = rank prog 0
+
+rank :: Prog -> Rank -> Maybe Rank
+rank [] a = Just a
+rank (x:xs) a   | fst (rankC x) > a = Nothing
+                | otherwise = rank xs ((a - fst (rankC x)) + snd (rankC x))
+
+-- b
+type Stack = [Int]
+semStatTC :: Prog -> Maybe Stack
+semStatTC prog  | rankP prog == Nothing = Nothing
+                | otherwise = Just (semProg prog)
+
+
+semProg :: Prog -> Stack
+semProg = foldl (flip sem) []
+
+sem :: Cmd -> Stack -> Stack
+sem (LD x) s = (x:s)
+sem ADD (x1:x2:s) = ((x1+x2):s)
+sem MULT (x1:x2:s) = ((x1*x2):s)
+sem DUP (x:s) = (x:x:s)
+sem INC (x:s) = ((x+1):s)
+sem SWAP (x1:x2:s) = (x2:x1:s)
+sem (POP a) s = (drop a) s
 
 -- Exercise 2
 data Shape = X
