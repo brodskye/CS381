@@ -1,3 +1,6 @@
+-- Eytan Brodsky, David Jansen, Shanmukh Challa
+-- Homework 4
+
 module HW4 where
 
 -- Exercise 1
