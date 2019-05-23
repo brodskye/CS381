@@ -1,3 +1,49 @@
+--CS381 HW4
+--Eytan Brodsky, David Jansen, Shanmukh Challa
+
+--Excercise 1. Runtime Stack
+--{ int x;
+--  int y;
+--  y := 1;
+--  { int f(int x) {
+--    if x=0 then {
+--      y := 1 }
+--    else {
+--      y := f(x-1)*y+1 };
+--    return y;
+--  };
+--  x := f(2);
+-- };
+--}
+
+
+-- []
+-- 1 [x:?]
+-- 2 [y:?, x:?]
+-- 3 [y:1, x:?]
+-- 4 [f:{}, y:1, x:?]
+-- 11 >>
+--           [x:2, f:{}, y:1, x:?] x > 0 so we jump to 8
+--         8 [x:1, x:2, f:{}, y:1, x:?] x > 0 so we jump to 8
+--         8 [x:0, x:1, x:2, f:{}, y:1, x:?] x == 0, so y=1
+--         9 [res:1, x:0, x:1, x:2, f{}, y:1, x:?]
+--         8 [x:1, x:2, f:{}, y:2, x:?]
+--         9 [res: 2, x:1, x:2, f:{}, y:5, x:?]
+--         8 [x:2, f:{}, y:5, x:?]
+--         9 [res: 5, x:2, f:{}, y:5, x:?]
+--          <<
+-- 11 [f:{}, y:5, x:5]
+-- 12 [f:{}, y:5, x:5]
+-- 13 ...
+
+{-
+Exercise 2
+
+a) z will be 21 after static scoping.
+
+b) z will be 26 after dynamic scoping.
+
+}
 
 -- Exercise 3
 -- a
@@ -31,6 +77,7 @@
  -
  -}
 
+-- b
 {-
  -
  - Call-by-Need:
